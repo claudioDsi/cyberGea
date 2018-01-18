@@ -1,0 +1,15 @@
+package org.cyberGea.eventGenerators;
+
+public class AirSensor extends Sensor{
+	
+	Thread t;
+	String name;
+	
+	
+	public AirSensor(DataPublisher clientReference, int min, int max, String name) {
+		super(clientReference, min, max, "°C", "rawData/temperature" + name, name);
+		
+		
+	}
+
+}

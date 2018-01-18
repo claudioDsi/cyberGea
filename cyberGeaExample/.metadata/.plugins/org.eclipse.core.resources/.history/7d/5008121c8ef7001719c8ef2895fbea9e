@@ -1,0 +1,32 @@
+package org.cyberGea.eventGenerators;
+
+public class PressureSensor extends Sensor{
+	
+	int pressure;
+	String name;
+	Thread t;
+
+	public PressureSensor(DataPublisher clientReference, int min, int max, String unitMeasurement,
+			String name,int pressure) {
+		super(clientReference, min, max, "kg", "rawData/soilPressure "+name);
+		this.pressure=pressure;
+		this.name=name;
+		
+		
+	}
+	
+	public void startMeasurePressure() {
+		System.out.println("the kg of soil is "+ pressure);
+		t=new Thread(this);
+		t.start();
+	}
+	
+	public void stopMeasure() throws InterruptedException
+	{
+		this.stopThread();
+		System.out.println(name + " has been stopped");
+	}
+
+	
+
+}

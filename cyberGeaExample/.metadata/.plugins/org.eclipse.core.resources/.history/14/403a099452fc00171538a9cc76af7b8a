@@ -1,0 +1,8 @@
+package org.cyberGea.rawDataCollector;
+
+import org.cybergea.dbmanager.provider.Environment;
+
+public interface DataAggregator
+{
+	Environment getCurrentEnvironment();
+}

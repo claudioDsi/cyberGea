@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<session version="1.0">
+<refactoring comment="Rename package &apos;org.masaccio.eventGenerators&apos; to &apos;org.cyberGea.eventGenerators&apos;&#x0D;&#x0A;- Original project: &apos;org.cyberGea.eventGenerators&apos;&#x0D;&#x0A;- Original element: &apos;org.cyberGea.eventGenerators/src/org.masaccio.eventGenerators&apos;&#x0D;&#x0A;- Renamed element: &apos;org.cyberGea.eventGenerators/src/org.cyberGea.eventGenerators&apos;&#x0D;&#x0A;- Update references to refactored element&#x0D;&#x0A;- Update textual occurrences in comments and strings" description="Rename package &apos;org.masaccio.eventGenerators&apos;" flags="589830" hierarchical="false" id="org.eclipse.jdt.ui.rename.package" input="/src&lt;org.masaccio.eventGenerators" name="org.cyberGea.eventGenerators" qualified="false" references="true" stamp="1515594544914" textual="false" version="1.0"/>
+</session>

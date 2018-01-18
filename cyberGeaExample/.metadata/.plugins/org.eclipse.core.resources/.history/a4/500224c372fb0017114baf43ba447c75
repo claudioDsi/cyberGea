@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: RawDataCollector
+Bundle-SymbolicName: org.cyberGea.rawDataCollector
+Bundle-Version: 1.0.0
+Bundle-Activator: org.cyberGea.rawDataCollector.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.eclipse.paho.client.mqttv3;version="1.2.0",
+ org.osgi.framework;version="1.8.0",
+ org.osgi.service.component.annotations;version="1.3.0"
+Export-Package: org.cyberGea.rawDataCollector

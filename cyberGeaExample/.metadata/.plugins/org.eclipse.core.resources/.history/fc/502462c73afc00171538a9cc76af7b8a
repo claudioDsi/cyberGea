@@ -1,0 +1,93 @@
+package org.cybergea.datanalyzer;
+
+import java.util.Hashtable;
+
+import javax.servlet.Servlet;
+import org.cyberGea.rawDataCollector.DataAggregator;
+import org.cybergea.dbmanager.DataExchange;
+import org.osgi.framework.BundleActivator;
+import org.osgi.framework.BundleContext;
+import org.osgi.framework.ServiceReference;
+import org.osgi.framework.ServiceRegistration;
+import org.osgi.util.tracker.ServiceTracker;
+
+public class Activator implements BundleActivator
+{
+
+	ServiceRegistration<Servlet> reg;
+	private PresentationUpdater pres;
+	
+	/*
+	 * Serve per la comunicazione con il rawDataCollector
+	 */
+	private CollectorTracker dCustom;
+	private ServiceTracker collectorTracker;
+	
+	/*
+	 * Serve per la comunicazione con il queryDispatcher
+	 */
+	private TrackerCustomizer dataTracker;
+	private ServiceTracker serviceTracker;
+	
+	/*
+	 * Server per la comunicazione con gli attuatori
+	 */
+	
+	private DeviceTracker dTrack;
+	private ServiceTracker deviceTracker;
+	
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
+	 */
+	public void start(BundleContext context) throws Exception 
+	{
+		Hashtable<String, String> props = new Hashtable<String, String>();
+		
+	    this.pres = new PresentationUpdater();	 		
+	    
+		props.put("osgi.http.whiteboard.servlet.pattern", "/pres");
+	    props.put("servlet.init.message", "Hi, this is the presentation updater");
+	    this.reg = context.registerService(Servlet.class, pres, props);
+	    
+	  
+	    ServiceReference reference = context.getServiceReference(DataExchange.class);
+	    DataExchange inter=(DataExchange) context.getService(reference);
+	    
+	    dataTracker = new TrackerCustomizer(context, pres);
+	    serviceTracker = new ServiceTracker(context, DataExchange.class.getName(), dataTracker);
+	   
+	    
+	    ServiceReference ref2 = context.getServiceReference(DataAggregator.class);
+	    DataAggregator dataAg = (DataAggregator) context.getService(ref2);
+	    
+	    
+	    dCustom = new CollectorTracker(context, pres);
+	    collectorTracker = new ServiceTracker(context, DataAggregator.class.getName(), dCustom);
+	    
+	    
+	    ServiceReference ref3 = context.getServiceReference(DeviceHandler.class);
+	    DataAggregator dataAg = (DataAggregator) context.getService(ref2);
+	    
+	    
+	    dCustom = new CollectorTracker(context, pres);
+	    collectorTracker = new ServiceTracker(context, DataAggregator.class.getName(), dCustom);
+	    
+	    
+	    
+	    serviceTracker.open();
+	    collectorTracker.open();
+	   // System.out.println(inter.getData());
+	}
+
+	/*
+	 * (non-Javadoc)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 */
+	public void stop(BundleContext bundleContext) throws Exception
+	{
+		
+	}
+
+}

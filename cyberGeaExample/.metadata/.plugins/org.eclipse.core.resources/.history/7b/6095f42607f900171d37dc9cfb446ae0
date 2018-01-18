@@ -1,0 +1,19 @@
+package org.cybergea.dbmanager;
+
+import java.io.IOException;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import com.google.gson.JsonObject;
+
+public interface DataExchange {
+	 String getJsonData() throws SQLException;
+	 JsonObject getProductbySeason(String seas) throws SQLException;	  
+	 void updateAnnualPlan(ArrayList<String> list, String plan);
+	 void insertCSVData() throws IOException;
+	 
+	
+
+}
+  

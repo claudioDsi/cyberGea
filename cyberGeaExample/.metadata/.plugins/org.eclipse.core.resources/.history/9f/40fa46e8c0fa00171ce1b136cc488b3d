@@ -1,0 +1,67 @@
+package org.cybergea.dbmanager.provider;
+
+public class Environment {
+	
+	private int id_env;
+	private int current_humidity;
+	private int current_temperature;
+	private int current_light;
+	private String current_season;
+	private int current_air;
+	
+	
+	public Environment(int id,int h,int t,int l,String s,int a) {
+		id_env=id;
+		current_humidity=h;
+		current_temperature=t;
+		current_light=l;
+		current_season=s;
+		current_air=a;
+	}
+	
+	
+	public int getIDEnv() {
+		return id_env;
+	}
+	
+	public int getCurrentHumidity() {
+		return current_humidity;
+	}
+	public int getCurrentTemperature() {
+		return current_temperature;
+	}
+	public int getCurrentLight() {
+		return current_light;
+	}
+	public String getCurrentSeason() {
+		return current_season;
+	}
+	public int getCurrentAir() {
+		return current_air;
+	}
+	
+	public void getIDEnv(int id_env) {
+		this.id_env=id_env;
+	}
+	public void getCurrentHumidity(int current_humidity) {
+		this.current_humidity=current_humidity;
+	}
+	public void getCurrentTemperature(int  current_temperature) {
+		this.current_temperature= current_temperature;
+	}
+	public void getCurrentLight(int  current_light) {
+		this.current_light= current_light;
+	}
+	public void getCurrentSeason(String  current_season) {
+		this.current_season= current_season;
+	}
+	public void getCurrentAir(int  current_air) {
+		this.current_air= current_air;
+	}
+	
+	
+	
+	
+	
+
+}
