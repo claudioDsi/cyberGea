@@ -1,0 +1,16 @@
+package org.cyberGea.rawDataCollector;
+
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.cybergea.dbmanager.provider.Environment;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
+
+public interface DataAggregator
+{
+	Environment getCurrentEnvironment();
+	public String[] getProductsGrowth() 
+	void setCamera(Map<String,Integer>  list);
+	//void startCamera();
+}

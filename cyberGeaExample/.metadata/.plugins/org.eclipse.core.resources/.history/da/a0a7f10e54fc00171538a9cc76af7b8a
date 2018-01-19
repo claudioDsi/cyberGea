@@ -1,0 +1,11 @@
+package org.cyberGea.rawDataCollector;
+
+import java.util.ArrayList;
+
+import org.cybergea.dbmanager.provider.Environment;
+
+public interface DataAggregator
+{
+	Environment getCurrentEnvironment();
+	ArrayList<Integer> getProductsGrowth();
+}

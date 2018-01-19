@@ -1,0 +1,5 @@
+package org.cybergea.dbmanager.provider;
+
+public class Plan {
+
+}

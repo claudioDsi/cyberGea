@@ -1,0 +1,28 @@
+package org.cyberGea.eventGenerators;
+
+public class TemperatureSensor extends Sensor
+{	
+	Thread t;
+	String name; 
+	String position;
+	
+	public TemperatureSensor(DataPublisher clientReference, int min, int max, String name, String position)
+	{
+		super(clientReference, min, max, "°C", "rawData/temperature" + name, name, position);
+		this.name = name;
+		startSensing();
+	}
+	
+	public void startSensing()
+	{
+		System.out.println(name + " is started");
+		t = new Thread(this);
+		t.start();
+	}
+	
+	public void stopSensing() throws InterruptedException
+	{
+		this.stopThread();
+		System.out.println(name + " has been stopped");
+	}
+}

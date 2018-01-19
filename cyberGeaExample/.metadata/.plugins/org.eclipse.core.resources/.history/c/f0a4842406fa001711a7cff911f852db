@@ -1,0 +1,14 @@
+package org.cybergea.datanalyzer;
+
+public class JsonContainer {
+	String key;
+	String value;
+	
+	
+	public JsonContainer(String key) {
+		
+	}
+	
+	
+
+}

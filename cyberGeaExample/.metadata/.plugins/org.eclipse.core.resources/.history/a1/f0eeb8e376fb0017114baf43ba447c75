@@ -1,0 +1,62 @@
+package org.cyberGea.eventGenerators;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttTopic;
+
+public class DataPublisher 
+{
+	MqttClient client;
+	
+	/*
+	 *  Connection to the 1883 port
+	 */
+
+	public DataPublisher() throws MqttException
+	{
+		client = new MqttClient("tcp://localhost:1883","dataPublisher");
+		MqttConnectOptions opts = new MqttConnectOptions();		
+		client.connect(opts);
+	}
+	
+	/* 
+	 * Creates a MQTT message according to the text indicated as argument 
+	 */
+	public MqttMessage createMessage(String msg)
+	{
+		MqttMessage mqttMsg = new MqttMessage(msg.getBytes());
+		mqttMsg.setRetained(false);
+		mqttMsg.setQos(1);
+		
+		return mqttMsg;
+	}
+	
+	
+	/*
+	 * Sends a MQTT message on the specified topic name 
+	 */
+	public void sendMessage(String topicName, MqttMessage message)
+	{
+		try 
+		{		
+			MqttTopic topic = client.getTopic(topicName);
+			topic.publish(topicName, new byte[] {},0, true);	
+			
+		}catch(MqttException e)
+		{
+			//System.err.println("Error during publishing");
+			e.printStackTrace();
+		}
+	}
+	
+	
+	/*
+	 * Provides the disconnection of the publisher to the broker	
+	 */
+	public void publisherDisconnection() throws MqttException
+	{
+		client.disconnect();
+	}
+	
+}

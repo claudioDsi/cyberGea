@@ -1,0 +1,9 @@
+package org.cyberGea.rawDataCollector;
+
+import org.cybergea.dbmanager.provider.Environment;
+
+public interface DataAggregator
+{
+	String getAlarm();
+	Environment getCurrentEnvironment();
+}

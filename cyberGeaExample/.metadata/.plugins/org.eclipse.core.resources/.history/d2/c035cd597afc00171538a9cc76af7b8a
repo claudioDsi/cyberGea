@@ -1,0 +1,155 @@
+package org.cyberGea.rawDataCollector.provider;
+import java.util.ArrayList;
+import java.util.Map;
+
+import org.cyberGea.rawDataCollector.DataAggregator;
+import org.cybergea.dbmanager.provider.Environment;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
+import org.eclipse.paho.client.mqttv3.MqttPersistenceException;
+import org.eclipse.paho.client.mqttv3.MqttTopic;
+import org.osgi.service.component.annotations.Component;
+
+@Component
+public class Collector implements MqttCallback, DataAggregator
+{
+	MqttClient client; 
+	MqttClient publisher;
+	String[] currentStat;
+	Environment currentEnv  = new Environment();
+	String currentGrowth;
+	boolean powerUp=false;
+	
+	public Collector() throws MqttException
+	{
+		client = new MqttClient("tcp://localhost:1883","rawDataCollector");
+		client.setCallback(this);
+		client.connect();
+		client.subscribe("rawData/#");
+		
+	}
+	
+	public void collectorDisconnection() throws MqttException
+	{
+		client.unsubscribe("rawData/#");
+		client.disconnect();
+	}
+
+	@Override
+	public void connectionLost(Throwable arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void deliveryComplete(IMqttDeliveryToken arg0)
+	{
+		// TODO Auto-generated method stub
+		
+	}
+	
+	/*
+	 * Function triggered when a message arrives, data is temporarily stored
+	 */
+
+	@Override
+	public void messageArrived(String arg0, MqttMessage arg1) throws Exception 
+	{
+		System.out.println(arg1.toString());
+		this.currentStat = arg1.toString().split(",");		
+		
+		
+		switch(currentStat[1]) {
+			case "tempS1":				
+				currentEnv.setTemperature(Float.parseFloat(currentStat[0]));				
+				break;
+				
+			case "humidS1":				
+				currentEnv.setHumidity(Float.parseFloat(currentStat[0]));				
+				break;
+				
+			case "lightS1":				
+				currentEnv.setLight(Float.parseFloat(currentStat[0]));							
+				break;
+				
+			case "airS1":				
+				currentEnv.setAir(Float.parseFloat(currentStat[0]));							
+				break;
+				
+			default:
+			
+		}		
+		
+	}
+	
+	/*
+	 * Function called by the alarmDispatcher to analyze current data collected
+	 */
+	
+
+	@Override
+	public Environment getCurrentEnvironment() {
+	
+		return this.currentEnv;
+	}
+
+	@Override
+	public String getProductsGrowth() {
+		
+		return this.currentGrowth;
+	}
+
+	@Override
+	public void setCamera(Map<String,Integer> list) {
+		
+		String s1=list.toString().replace("{", "").replace("}", "");		
+		try {
+			publisher = new MqttClient("tcp://localhost:1883","rawDataPublisher");
+			publisher.setCallback(this);
+			publisher.connect();
+			
+			publisher.publish("startcamera", createMessage(s1));
+		} catch (MqttException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
+
+	}
+	
+	/* 
+	 * Creates a MQTT message according to the text indicated as argument 
+	 */
+	public MqttMessage createMessage(String msg)
+	{
+		MqttMessage mqttMsg = new MqttMessage(msg.getBytes());
+		mqttMsg.setRetained(false);
+		mqttMsg.setQos(1);
+		
+		return mqttMsg;
+	}
+	
+	
+	/*
+	 * Sends a MQTT message on the specified topic name 
+	 */
+	public void sendMessage(String topicName, MqttMessage message)
+	{
+		try 
+		{		
+			MqttTopic topic = client.getTopic(topicName);
+			topic.publish(message);
+			
+		}catch(MqttException e)
+		{
+			//System.err.println("Error during publishing");
+			e.printStackTrace();
+		}
+	}
+	
+	
+}

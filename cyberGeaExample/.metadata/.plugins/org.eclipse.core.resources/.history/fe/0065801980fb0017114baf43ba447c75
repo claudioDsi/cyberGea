@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: DataAnalyzer
+Bundle-SymbolicName: org.cyberGea.datAnalyzer
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: org.cybergea.datanalyzer.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: javax.servlet;version="3.1.0",
+ javax.servlet.http;version="3.1.0",
+ org.cybergea.dbmanager,
+ org.cybergea.dbmanager.provider,
+ org.osgi.framework;version="1.3.0",
+ org.osgi.util.tracker;version="1.5.1"
+Bundle-ClassPath: lib/gson-2.6.2.jar,
+ .

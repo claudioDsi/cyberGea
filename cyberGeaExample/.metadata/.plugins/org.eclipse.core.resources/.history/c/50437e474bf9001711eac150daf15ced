@@ -1,0 +1,26 @@
+package org.cyberGea.eventGenerators;
+
+public class HumiditySensor extends Sensor{
+	int humidity;
+	 String name;
+	 Thread t;
+	
+	public HumiditySensor(DataPublisher clientReference, int min, int max, String name, String position,int humidity) {
+		super(clientReference, min, max, "°C", "rawData/humidity" + name, name, position);
+		this.name=name;
+		startHumiditySensor();
+		
+		
+	}
+	
+	public void startHumiditySensor() {
+		System.out.println(name + " is starting");
+		t=new Thread(this);
+		t.start();
+	}
+	public void stopHumiditySensor() {
+		this.stopThread();
+		System.out.println(name+ " is stopped");
+	}
+
+}
